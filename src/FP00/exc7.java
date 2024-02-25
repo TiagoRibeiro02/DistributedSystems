@@ -16,7 +16,6 @@ public class exc7 {
 		} catch(IOException e) {
 			System.err.println(e.getMessage());
 		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

@@ -6,7 +6,7 @@ import java.io.ObjectOutputStream;
 
 public class exc5a {
 	public static void main(String[] args) {
-		Person p1 = new Person ("Gui", 20, "guilhermeteixeira1313@gmail.com", "935694907");
+		Person p1 = new Person ("Tiago", 20, "tiago@gmail.com", "932142132");
 		Person p2 = new Person ("João", 20, "joao@gmail.com", "978673456");
 		
 		try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("C:\\\\Users\\\\tigol\\\\Documents\\\\GitHub\\\\DistributedSystems\\\\src\\\\FP00\\\\person.ser"))) {
