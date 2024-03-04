@@ -13,7 +13,6 @@ public class Client5 {
 			ObjectOutputStream os = new ObjectOutputStream(sc.getOutputStream());
 			ObjectInputStream is = new ObjectInputStream(sc.getInputStream());
 			
-			System.out.println(is.readObject());
 			System.out.println("[Menu Operações]");
 			System.out.println("1 - Registar aluno");
 			System.out.println("2 - Consultar quais os alunos registados");
