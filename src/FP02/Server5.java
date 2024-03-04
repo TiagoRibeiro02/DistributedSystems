@@ -30,7 +30,7 @@ public class Server5 {
 				// Aguarda uma conexão do cliente
 				Socket sos = ss.accept();
 				numeroAcessos = numeroAcessos + 1;
-				System.out.println("Cliente conectado: " + sos.getInetAddress());
+				System.out.println("Cliente conectado: " + sos.getInetAddress()); 
 			}
 
 		} catch (IOException e) {
