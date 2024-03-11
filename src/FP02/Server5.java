@@ -11,32 +11,28 @@ public class Server5 {
 	private int numeroAcessos;
 
 	public Server5() {
-		ServerSocket ss = null;
+		while (true) {
+			try {
+				ServerSocket ss = new ServerSocket(2222);
 
-		// Cria um servidor socket na porta 2222
-		try {
-			ss = new ServerSocket(2222);
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		this.alunosRegistados = new ArrayList<Aluno>();
-		carregarDados();
+				this.alunosRegistados = new ArrayList<Aluno>();
+				carregarDados();
 
-		try {
-			System.out.println("-- Processo Ex5_Servidor --\n");
+				System.out.println("-- Processo Ex5_Servidor --\n");
 
-			while (true) {
 				// Aguarda uma conexão do cliente
-				Socket sos = ss.accept();
-				numeroAcessos = numeroAcessos + 1;
-				System.out.println("Cliente conectado: " + sos.getInetAddress()); 
+				while (true) {
+					Socket sos = ss.accept();
+					numeroAcessos = numeroAcessos + 1;
+					System.out.println("Cliente conectado: " + sos.getInetAddress());
+				}
+
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 
-		} catch (IOException e) {
-			System.out.println(e.getMessage());
 		}
-
 	}
 
 	public int registarAluno(Aluno aluno) {
@@ -76,8 +72,8 @@ public class Server5 {
 
 	private void carregarDados() {
 		try {
-			BufferedReader br = new BufferedReader(new FileReader(
-					"C:/Users/tigol/Documents/GitHub/DistributedSystems/src/FP02/alunosregistados.txt"));
+			BufferedReader br = new BufferedReader(
+					new FileReader("C:/Users/tigol/Documents/GitHub/DistributedSystems/src/FP02/alunosregistados.txt"));
 			String linha;
 			while ((linha = br.readLine()) != null) {
 				String[] campos = linha.split(",");
