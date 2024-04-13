@@ -6,6 +6,8 @@ import java.util.ArrayList;
 
 import Ler.Ler;
 
+
+
 public class Client5 {
 	public Client5() {
 		try {
@@ -13,11 +15,10 @@ public class Client5 {
 			Socket sc = new Socket("127.0.0.1", 2222);
 			ObjectOutputStream os = new ObjectOutputStream(sc.getOutputStream());
 			ObjectInputStream is = new ObjectInputStream(sc.getInputStream());
-
-
+			
 			int op = 0;
 			int conversaTerminada = 0;
-			while (conversaTerminada != 1) {
+			while(conversaTerminada != 1) {
 				System.out.println("[Menu Operações]");
 				System.out.println("1 - Registar aluno");
 				System.out.println("2 - Consultar quais os alunos registados");
@@ -26,11 +27,11 @@ public class Client5 {
 				System.out.println("5 - Sair");
 				System.out.print("Indique a operação que deseja realizar: ");
 				op = Ler.umInt();
-
+			
 				// Envio da Opção Escolhida
 				os.writeInt(op);
 				os.flush();
-
+				
 				switch (op) {
 				case 1:
 					String nome;
@@ -52,17 +53,18 @@ public class Client5 {
 					contacto = Ler.umaString();
 
 					Aluno alCriado = new Aluno(num, nome, curso, contacto);
-
+					
 					// Envio do Aluno criado
 					os.writeObject(alCriado);
 					os.flush();
 
 					// Receber Nº Alunos Registos
 					int nAlunosRegistados = is.readInt();
-
-					if (nAlunosRegistados == -1) {
+					
+					if(nAlunosRegistados == -1) {
 						System.out.println("\nAluno já existe! Tente novamente...");
-					} else {
+					}
+					else {
 						System.out.println("\nAluno adicionado com sucesso!");
 						System.out.println("Alunos Registados: " + nAlunosRegistados);
 					}
@@ -79,27 +81,33 @@ public class Client5 {
 				case 3:
 					System.out.println("\n--------------------------");
 					System.out.println("3. Acessos ao Servidor");
-					int acessos = is.readInt();
+					int acessos  = is.readInt();
 					System.out.println("Contagem de acessos ao Servidor: " + acessos);
 					System.out.println("--------------------------\n");
 					break;
 				case 4:
 					System.out.println("\n--------------------------");
 					System.out.println("4. Investigar Aluno");
-
+					
 					System.out.print("Nome do Aluno: ");
 					String nomeA = Ler.umaString();
-
+					
 					// Envio do nome pesquisado
 					os.writeObject(nomeA);
 					os.flush();
-
-					// Receber Array de Alunos Pesquisados
-					int alunosEncotrados = is.readInt();
-					System.out.println("Resultados da Pesquisa:");
-					System.out.println("Nº " + alunosEncotrados);
-						
 					
+					// Receber Array de Alunos Pesquisados
+					ArrayList<Aluno> alunosEncotrados = (ArrayList<Aluno>) is.readObject();
+					System.out.println("Resultados da Pesquisa:");
+					if(alunosEncotrados.size() == 0) {
+						System.out.println("Não há resultados para a sua pesquisa!");
+					}
+					else {
+						for(int i = 0; i < alunosEncotrados.size(); i++) {
+							System.out.println("Nº " + (i + 1));
+							System.out.println(alunosEncotrados.toString());
+						}
+					}
 					System.out.println("--------------------------\n");
 					break;
 				case 5:
@@ -110,7 +118,8 @@ public class Client5 {
 					System.out.println("Indique uma operaçãp válida!");
 				}
 			}
-
+			
+		
 			os.close();
 			is.close();
 			sc.close();
@@ -120,7 +129,6 @@ public class Client5 {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
 	}
 
 	public static void main(String args[]) {

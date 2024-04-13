@@ -1,77 +1,70 @@
 package FP05;
 
 import java.io.*;
-import java.net.ServerSocket;
-import java.net.Socket;
-import Ler.Ler;
-
+import java.net.*;
 import java.util.ArrayList;
 
+
+
 public class ServerMulti5 {
+	private ArrayList<Aluno> alunosRegistados;
+	private int []numeroAcessos;
+	private Connection5 c;
 
-	FileInputStream lerDados = new FileInputStream("C:/Users/tigol/Documents/GitHub/DistributedSystems/src/FP02/alunos.txt");
-    ObjectInputStream oisf = null;
-    ObjectOutputStream oosfacessos = null;
-    ObjectInputStream oisfacessos = null;
-    ArrayList<Aluno> listaDeAlunos = new ArrayList<>();
-    Byte acessos = null;
-    private Connection5 c;
-    private Socket s;
-    private ServerSocket ss;
-    
-    public ServerMulti5() throws IOException ,EOFException, ClassNotFoundException{
-    	try {
-			ss = new ServerSocket(5432);
-		} catch ( IOException e){ 
-			System.out.println(e.getMessage());
-		}
-		
+	public ServerMulti5() {
+		ServerSocket ss = null;
+
+		// Cria um servidor socket na porta 2222
 		try {
-			System.out.println("Processo Servidor");
-			try {
-				oisfacessos = new ObjectInputStream(new FileInputStream("C:/Users/tigol/Documents/GitHub/DistributedSystems/src/FP02/acessos.txt"));
-			} catch (EOFException ex) {
-				System.out.println("End of file dos bytes");
-			}
-			try {
-				acessos = oisfacessos.readByte();
-				oisfacessos.close();
-			} catch(NullPointerException ex) {
-				System.out.println("Acessos não existiram ainda");
-				acessos = 0;
-			}
-			while(true) {
-				s = ss.accept();
-				c = new Connection5(s,acessos,listaDeAlunos);
-				synchronized (acessos) {
-					acessos++;
+			ss = new ServerSocket(2222);
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		this.alunosRegistados = new ArrayList<Aluno>();
+		numeroAcessos = new int[1];
+		numeroAcessos[0] = 0;
+		carregarDados();
+
+		try {
+			System.out.println("-- Processo Ex5_Servidor --\n");
+
+			while (true) {
+				// Aguarda uma conexão do cliente
+				Socket sos = ss.accept();
+				synchronized (numeroAcessos) {
+					numeroAcessos[0] = numeroAcessos[0] + 1;
 				}
-
-
-
-	            try {
-	                 oisf = new ObjectInputStream(lerDados);
-
-	            } catch (EOFException ex) {
-	                System.out.println("End of file");
-	            }
-
-	            try {
-	                listaDeAlunos = (ArrayList<Aluno>) oisf.readObject();
-	                oisf.close();
-	            } catch(NullPointerException ex) {
-	                System.out.println("Lista Vazia");
-	            }
+                System.out.println("Cliente conectado: " + sos.getInetAddress());
+                c = new Connection5(sos, alunosRegistados, numeroAcessos);
 			}
-		} catch (IOException e)	{
+		} catch (IOException e) {
 			System.out.println(e.getMessage());
 		}
-    }
 
+	}
 
+	private void carregarDados() {
+		try {
+			BufferedReader br = new BufferedReader(new FileReader(
+					"C:/Users/tigol/Documents/GitHub/DistributedSystems/src/FP05/alunosregistados.txt"));
+			String linha;
+			while ((linha = br.readLine()) != null) {
+				String[] campos = linha.split(",");
+				int numero = Integer.parseInt(campos[0]);
+				String nome = campos[1];
+				String curso = campos[2];
+				String contacto = campos[3];
+				Aluno aluno = new Aluno(numero, nome, curso, contacto);
+				alunosRegistados.add(aluno);
+			}
+			br.close();
+		} catch (IOException e) {
+			System.out.println("Erro ao ler arquivo de alunos: " + e.getMessage());
+		}
+	}
 
-
-    public static void main(String args[]) throws IOException, NullPointerException, ClassNotFoundException {
-        ServerMulti5 s = new ServerMulti5();
-    }
+	public static void main(String[] args) {
+		ServerMulti5 s = new ServerMulti5();
+	}
 }

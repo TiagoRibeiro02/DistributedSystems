@@ -1,13 +1,8 @@
 package FP05;
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.io.Serializable;
-import java.util.ArrayList;
 
 public class Aluno implements Serializable {
-	private int numero;
+    private int numero;
     private String nome;
     private String curso;
     private String contacto;
@@ -50,66 +45,6 @@ public class Aluno implements Serializable {
     public void setContacto(String contacto) {
         this.contacto = contacto;
     }
-    
-    public int registarAluno(Aluno aluno) {
-    	ArrayList<Aluno> alunosRegistados = carregarDados();
-		if (alunosRegistados.contains(aluno)) {
-			return -1; // aluno já está registado
-		}
-
-		alunosRegistados.add(aluno);
-		escreverDados();
-
-		return alunosRegistados.size();
-	}
-
-	public ArrayList<Aluno> pesquisaAluno(String nomealuno) {
-		ArrayList<Aluno> alunosRegistados = carregarDados();
-		ArrayList<Aluno> alunosEncontrados = new ArrayList<Aluno>();
-		for (int i = 0; i < alunosRegistados.size(); i++) {
-			if (alunosRegistados.get(i).getNome().equals(nomealuno)) {
-				alunosEncontrados.add(alunosRegistados.get(i));
-			}
-		}
-		return alunosEncontrados;
-	}
-
-	public void escreverDados() {
-		ArrayList<Aluno> alunosRegistados = carregarDados();
-		try {
-			FileWriter writer = new FileWriter(
-					"C:/Users/tigol/Documents/GitHub/DistributedSystems/src/FP02/alunosregistados.txt");
-			for (Aluno aluno : alunosRegistados) {
-				writer.write(aluno.getNumero() + "," + aluno.getNome() + "," + aluno.getCurso() + ","
-						+ aluno.getContacto() + "\n");
-			}
-			writer.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
-	public ArrayList<Aluno> carregarDados() {
-		ArrayList<Aluno> alunosRegistados = new ArrayList<>();
-		try {
-			BufferedReader br = new BufferedReader(new FileReader(
-					"C:/Users/tigol/Documents/GitHub/DistributedSystems/src/FP02/alunosregistados.txt"));
-			String linha;
-			while ((linha = br.readLine()) != null) {
-				String[] campos = linha.split(",");
-				int numero = Integer.parseInt(campos[0]);
-				String nome = campos[1];
-				String curso = campos[2];
-				String contacto = campos[3];
-				Aluno aluno = new Aluno(numero, nome, curso, contacto);
-				alunosRegistados.add(aluno);
-			}
-			br.close();
-		} catch (IOException e) {
-			System.out.println("Erro ao ler arquivo de alunos: " + e.getMessage());
-		}
-		return alunosRegistados;
-	}
 
     @Override
     public String toString() {
