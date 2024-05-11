@@ -6,7 +6,7 @@ public class Normal extends Thread {
 	}
 
 	public void run() {
-		 for (int i=0; i<5; i++){
+		 for (int i=0; i<6; i++){
 		 try
 		 { sleep(500);}
 		 catch (InterruptedException e){
