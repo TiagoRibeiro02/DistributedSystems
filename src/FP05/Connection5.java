@@ -58,7 +58,7 @@ public class Connection5 extends Thread{
 					break;
 				case 2:
 					// Envia o nº de alunos registados
-					oos.writeObject(alunosRegistados);
+					oos.writeObject(alunosRegistados.clone());
 					oos.flush();
 					break;
 				case 3:
@@ -117,13 +117,11 @@ public class Connection5 extends Thread{
 
 	public ArrayList<Aluno> pesquisaAluno(String nomealuno) {
 		ArrayList<Aluno> alunosEncontrados = new ArrayList<Aluno>();
-		synchronized (alunosRegistados) {
 			for (int i = 0; i < alunosRegistados.size(); i++) {
 				if (alunosRegistados.get(i).getNome().equals(nomealuno)) {
 					alunosEncontrados.add(alunosRegistados.get(i));
 				}
 			}
-		}
 		return alunosEncontrados;
 	}
 	

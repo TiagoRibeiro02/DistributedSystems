@@ -11,9 +11,6 @@ public class PostoVenda extends Thread {
 		start();
 	}
 	
-	
-	
-	
 	public void run() {
 		int pausa;
 		System.out.println(Thread.currentThread().getName());

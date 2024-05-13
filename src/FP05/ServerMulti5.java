@@ -9,7 +9,9 @@ import java.util.ArrayList;
 public class ServerMulti5 {
 	private ArrayList<Aluno> alunosRegistados;
 	private int []numeroAcessos;
-	private Connection5 c;
+	private Connection5 c1;
+	private Connection5 c2;
+	private Connection5 c3;
 
 	public ServerMulti5() {
 		ServerSocket ss = null;
@@ -36,7 +38,7 @@ public class ServerMulti5 {
 					numeroAcessos[0] = numeroAcessos[0] + 1;
 				}
                 System.out.println("Cliente conectado: " + sos.getInetAddress());
-                c = new Connection5(sos, alunosRegistados, numeroAcessos);
+                c1 = new Connection5(sos, alunosRegistados, numeroAcessos);
 			}
 		} catch (IOException e) {
 			System.out.println(e.getMessage());

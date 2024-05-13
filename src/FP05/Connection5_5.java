@@ -20,14 +20,6 @@ public class Connection5_5 extends Thread {
 
     public void run() {
         try {
-            synchronized (numeroAcessos) {
-                if (numeroAcessos[0] >= 5) {
-                    System.out.println("Limite de conexões atingido. Cliente rejeitado.");
-                    return;
-                } else {
-                    numeroAcessos[0]++;
-                }
-            }
 
             // Cria streams de entrada e saída de objetos
             ObjectOutputStream oos = new ObjectOutputStream(S.getOutputStream());
@@ -108,13 +100,13 @@ public class Connection5_5 extends Thread {
 
     public ArrayList<Aluno> pesquisaAluno(String nomealuno) {
         ArrayList<Aluno> alunosEncontrados = new ArrayList<Aluno>();
-        synchronized (alunosRegistados) {
+        
             for (int i = 0; i < alunosRegistados.size(); i++) {
                 if (alunosRegistados.get(i).getNome().equals(nomealuno)) {
                     alunosEncontrados.add(alunosRegistados.get(i));
                 }
             }
-        }
+        
         return alunosEncontrados;
     }
 
