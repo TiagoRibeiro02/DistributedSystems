@@ -5,9 +5,6 @@ import java.rmi.*;
 
 public class RMIServer {
 	public static void main(String[] argv) {
-		//Se está a trabalhar com uma versão do java inferior a 17,
-		//não comente a instrução abaixo:
-		// System.setSecurityManager(new SecurityManager());
 		try { // Iniciar a execução do registry no porto desejado
 			java.rmi.registry.LocateRegistry.createRegistry(1099);
 			System.out.println("RMI registry ready.");

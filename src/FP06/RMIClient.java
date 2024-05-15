@@ -4,9 +4,6 @@ import java.rmi.Naming;
 import java.util.Scanner;
 public class RMIClient {
 	public static void main(String[] argv) {
-		//Se está a trabalhar com uma versão do java inferior a 17,
-		//não comente a instrução abaixo:
-		//System.setSecurityManager(new SecurityManager());
 
 		try {
 			//bind server object to object in client
