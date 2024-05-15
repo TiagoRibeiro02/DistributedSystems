@@ -9,9 +9,11 @@ public class Ex2Servidor extends java.rmi.server.UnicastRemoteObject implements 
 	private static int numVencedor;
 	private static ArrayList<Ex2_C_I> clientesLastNList;
 	private int clientesLigados;
+	private int nclientes;
 	public Ex2Servidor() throws java.rmi.RemoteException{
 		super();
 		clientesLigados = 0;
+		nclientes = 0;
 		numVencedor = 0;
 		clientesLastNList = new ArrayList<Ex2_C_I>();
 	}
@@ -33,19 +35,22 @@ public class Ex2Servidor extends java.rmi.server.UnicastRemoteObject implements 
 		client = c;
 		clientesLigados = clientesLigados + 1;
 		c.setNumSeq(clientesLigados);
+		nclientes = nclientes +1;
 		clientesLastNList.add(c);
-		if (clientesLigados == 5) {
-			Random random = new Random();
-			int indiceVencedor = random.nextInt(clientesLastNList.size());
-			try {
-				int numerosort = clientesLastNList.get(indiceVencedor).getNumSeq();
-				for (int i = 0; i < clientesLastNList.size(); i++) {
-					clientesLastNList.get(i).printOnClient(numerosort);
-				}
-			} catch (RemoteException e) {
-				e.printStackTrace();
-			}
-		}
+		if (nclientes == 5) {
+            Random random = new Random();
+            int startIndex = Math.max(0, clientesLastNList.size() - 5);
+            int indiceVencedor = startIndex + random.nextInt(Math.min(5, clientesLastNList.size()));
+            try {
+                int numerosort = clientesLastNList.get(indiceVencedor).getNumSeq();
+                for (int i = startIndex; i < clientesLastNList.size(); i++) {
+                    clientesLastNList.get(i).printOnClient(numerosort);
+                }
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+            nclientes = 0;
+        }
 	}
 	//Método local
 	public static String lerString (){
